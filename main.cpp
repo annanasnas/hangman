@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include <ctime>
-//#include <ncurses.h>
 using namespace std;
 
 class Word
@@ -158,6 +157,7 @@ int main() {
     bool won = false;
     string wordFromUser;
     do {
+        system("clear");
         PrintTitle(title, author);
         DrawHangman(tries);
         PrintLetters(wordFromUser);
@@ -169,7 +169,7 @@ int main() {
         if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
         tries = TriesLeft(wordToGuess.returnWord(), wordFromUser);
     } while(tries < 10);
-    if (won) PrintMessage("You won!");
+    if (won) PrintMessage("You won!", false);
     else PrintMessage("Game over");
     getchar();
     return 0;
