@@ -19,16 +19,16 @@ public:
         {
             while (std::getline(reader, word)) v.push_back(word);
             int randomLine = rand() % v.size();
-            if (randomLine % 2 == 1)
-            {
-                wordToGuess = v.at(randomLine);
-                hint = v.at(randomLine - 1);
+            string wordAndHint = v.at(randomLine);
+            int index = 0;
+            for(int i = wordAndHint.length() - 1; i >= 0; --i) {
+                if (wordAndHint[i] == ' ') {
+                    index = i;
+                    break;
+                }
             }
-            else
-            {
-                wordToGuess = v.at(randomLine + 1);
-                hint = v.at(randomLine);
-            }
+            hint = wordAndHint.substr(0, index);
+            wordToGuess = wordAndHint.erase(0,wordAndHint.find_last_of(' ')+1);
             reader.close();
         }
     }
