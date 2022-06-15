@@ -181,6 +181,7 @@ int main() {
         char letterFromUser;
         cout << ">";
         cin >> letterFromUser;
+        letterFromUser = toupper(letterFromUser);
         if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
         tries = TriesLeft(wordAndHint.returnWord(), wordFromUser);
     } while(tries < 10);
