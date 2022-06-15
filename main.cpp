@@ -82,7 +82,6 @@ void PrintAvailableLetters(string lettersInWord, char from, char to)
     PrintMessage(availableLetters, false, false);
 }
 
-
 void PrintLetters(string word)
 {
     PrintMessage("Available letters");
@@ -90,12 +89,36 @@ void PrintLetters(string word)
     PrintAvailableLetters(word,'N', 'Z');
 }
 
+bool PrintWordAndCheckWin(string word, string attempts)
+{
+    bool won = true;
+    string wordDisplayed;
+    for (int i = 0; i < word.length(); i++)
+    {
+        if (attempts.find(word[i]) == string::npos)
+        {
+            won = false;
+            wordDisplayed += "_ ";
+        }
+        else
+        {
+            wordDisplayed += word[i];
+            wordDisplayed += " ";
+        }
+    }
+    PrintMessage("Guess the word");
+    PrintMessage(wordDisplayed, false);
+    return won;
+}
+
 int main() {
     string title = "Hangman";
     string author = "annanasnas";
+    string attempts = "AIEN";
     PrintTitle(title, author);
     DrawHangman(9);
-    PrintLetters("MIEM");
+    PrintLetters(attempts);
+    PrintWordAndCheckWin("MIEM", attempts);
     getchar();
     return 0;
 }
