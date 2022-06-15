@@ -5,11 +5,12 @@
 #include <ctime>
 using namespace std;
 
-class Word
+class Database
 {
     string wordToGuess;
+    string hint;
 public:
-    explicit Word(string filePath)
+    Database(string filePath)
     {
         string word;
         vector<string> v;
@@ -18,13 +19,26 @@ public:
         {
             while (std::getline(reader, word)) v.push_back(word);
             int randomLine = rand() % v.size();
-            wordToGuess = v.at(randomLine);
+            if (randomLine % 2 == 1)
+            {
+                wordToGuess = v.at(randomLine);
+                hint = v.at(randomLine - 1);
+            }
+            else
+            {
+                wordToGuess = v.at(randomLine + 1);
+                hint = v.at(randomLine);
+            }
             reader.close();
         }
     }
     string& returnWord()
     {
         return wordToGuess;
+    }
+    string& returnHint()
+    {
+        return hint;
     }
 };
 
@@ -116,7 +130,7 @@ void PrintLetters(string wordFromUser)
     PrintAvailableLetters(wordFromUser,'N', 'Z');
 }
 
-bool PrintWordAndCheckWin(string wordToGuess, string wordFromUser)
+bool PrintWordAndCheckWin(string wordToGuess, string wordFromUser, string hint)
 {
     bool won = true;
     string wordDisplayed;
@@ -133,7 +147,8 @@ bool PrintWordAndCheckWin(string wordToGuess, string wordFromUser)
             wordDisplayed += " ";
         }
     }
-    PrintMessage("Guess the word");
+    PrintMessage("Hint", true, false);
+    PrintMessage(hint, false, true);
     PrintMessage(wordDisplayed, false);
     return won;
 }
@@ -152,7 +167,7 @@ int main() {
     srand(time(0));
     string title = "Hangman";
     string author = "annanasnas";
-    Word wordToGuess = Word( "/Users/anastasia/CLionProjects/hangman/words.txt");
+    Database wordAndHint = Database( "/Users/anastasia/CLionProjects/hangman/words.txt");
     int tries = 0;
     bool won = false;
     string wordFromUser;
@@ -161,16 +176,16 @@ int main() {
         PrintTitle(title, author);
         DrawHangman(tries);
         PrintLetters(wordFromUser);
-        if (PrintWordAndCheckWin(wordToGuess.returnWord(), wordFromUser)) won = true;
+        if (PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint())) won = true;
         if (won) break;
         char letterFromUser;
         cout << ">";
         cin >> letterFromUser;
         if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
-        tries = TriesLeft(wordToGuess.returnWord(), wordFromUser);
+        tries = TriesLeft(wordAndHint.returnWord(), wordFromUser);
     } while(tries < 10);
     if (won) PrintMessage("You won!", false);
-    else PrintMessage("Game over");
+    else PrintMessage("Game over", false);
     getchar();
     return 0;
 }
