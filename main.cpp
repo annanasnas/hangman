@@ -4,6 +4,7 @@
 #include <vector>
 #include <ctime>
 #include <SFML/Graphics.hpp>
+#include <unistd.h>
 using namespace std;
 
 class Database
@@ -186,6 +187,16 @@ int TriesLeft(string wordToGuess, string wordFromUser)
     return error;
 }
 
+void StartNewGame(int &tries, bool &won, string &result, string &wordFromUser, Database &wordAndHint)
+{
+    wordAndHint = Database( "/Users/anastasia/CLionProjects/hangman/words.txt");
+    tries = 0;
+    won = false;
+    result = "";
+    wordFromUser = "";
+    PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
+}
+
 int main()
 {
     srand(time(0));
@@ -197,7 +208,7 @@ int main()
     string result;
     string wordFromUser;
 
-    sf::RenderWindow window(sf::VideoMode(600, 850), "Hangman");
+    sf::RenderWindow window(sf::VideoMode(600, 900), "Hangman");
     sf::Font font;
         font.loadFromFile("/Users/anastasia/CLionProjects/hangman/consolas.ttf");
     sf::Text text("", font, 30);
@@ -241,19 +252,12 @@ int main()
         text.setPosition(0, 800);
         window.draw(text);
         text.setString(letterFromUser);
-        text.setPosition(15, 800);
+        text.setPosition(20, 800);
         window.draw(text);
-        if (tries == 10)
+        if (tries == 10 || won)
         {
-            text.setString(PrintMessage("Game over", false));
-            text.setPosition(0, 730);
-            window.draw(text);
-        }
-        if (won)
-        {
-            text.setString(PrintMessage("You won!", false));
-            text.setPosition(0, 730);
-            window.draw(text);
+            usleep(1000000); // will sleep for 1 s
+            StartNewGame(tries, won, result, wordFromUser, wordAndHint);
         }
         window.display();
     }
