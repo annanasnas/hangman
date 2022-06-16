@@ -208,7 +208,7 @@ int main()
     string result;
     string wordFromUser;
 
-    sf::RenderWindow window(sf::VideoMode(600, 900), "Hangman");
+    sf::RenderWindow window(sf::VideoMode(600, 800), "Hangman");
     sf::Font font;
         font.loadFromFile("/Users/anastasia/CLionProjects/hangman/consolas.ttf");
     sf::Text text("", font, 30);
@@ -249,10 +249,10 @@ int main()
         text.setPosition(0, 520);
         window.draw(text);
         text.setString(">");
-        text.setPosition(0, 800);
+        text.setPosition(0, 740);
         window.draw(text);
         text.setString(letterFromUser);
-        text.setPosition(20, 800);
+        text.setPosition(20, 740);
         window.draw(text);
         if (tries == 10 || won)
         {
