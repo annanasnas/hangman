@@ -197,11 +197,13 @@ int main()
     string result;
     string wordFromUser;
 
-    sf::RenderWindow window(sf::VideoMode(600, 800), "Hangman");
+    sf::RenderWindow window(sf::VideoMode(600, 850), "Hangman");
     sf::Font font;
         font.loadFromFile("/Users/anastasia/CLionProjects/hangman/consolas.ttf");
     sf::Text text("", font, 30);
     sf::RectangleShape rectangle;
+
+    PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
 
     while (window.isOpen())
     {
@@ -215,7 +217,7 @@ int main()
             {
                 if (event.text.unicode < 128)
                 {
-                    letterFromUser = static_cast<char>(event.text.unicode);
+                    letterFromUser = toupper(static_cast<char>(event.text.unicode));
                     if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
                     tries = TriesLeft(wordAndHint.returnWord(), wordFromUser);
                     PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
@@ -227,30 +229,30 @@ int main()
         text.setPosition(0, 0);
         window.draw(text);
         text.setString(DrawHangman(tries));
-        text.setPosition(0, 100);
+        text.setPosition(0, 140);
         window.draw(text);
         text.setString(PrintLetters(wordFromUser));
-        text.setPosition(0, 300);
+        text.setPosition(0, 350);
         window.draw(text);
         text.setString(result);
-        text.setPosition(0, 500);
+        text.setPosition(0, 520);
         window.draw(text);
         text.setString(">");
-        text.setPosition(0, 700);
+        text.setPosition(0, 800);
         window.draw(text);
         text.setString(letterFromUser);
-        text.setPosition(15, 700);
+        text.setPosition(15, 800);
         window.draw(text);
         if (tries == 10)
         {
             text.setString(PrintMessage("Game over", false));
-            text.setPosition(0, 710);
+            text.setPosition(0, 730);
             window.draw(text);
         }
         if (won)
         {
             text.setString(PrintMessage("You won!", false));
-            text.setPosition(0, 710);
+            text.setPosition(0, 730);
             window.draw(text);
         }
         window.display();
