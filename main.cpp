@@ -4,8 +4,8 @@
 #include <vector>
 #include <ctime>
 #include <SFML/Graphics.hpp>
-#include <unistd.h>
 using namespace std;
+
 
 class Database
 {
@@ -264,13 +264,13 @@ int main()
             textSmall.setPosition(0, 730);
             window.draw(textSmall);
         }
-        if (tries == 8)
+        if (tries == 9)
         {
             textSmall.setString("Your last attempt");
             textSmall.setPosition(0, 730);
             window.draw(textSmall);
         }
-        if (tries == 9) StartNewGame(tries, won, result, wordFromUser, wordAndHint);
+        if (tries == 10) StartNewGame(tries, won, result, wordFromUser, wordAndHint);
 
         window.display();
     }
