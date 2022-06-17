@@ -202,17 +202,16 @@ int main()
     srand(time(0));
     string title = "Hangman";
     string author = "annanasnas";
-    Database wordAndHint = Database( "/Users/anastasia/CLionProjects/hangman/words.txt");
+    Database wordAndHint = Database( "../words.txt");
     int tries = 0;
     bool won = false;
     string result;
     string wordFromUser;
 
-    sf::RenderWindow window(sf::VideoMode(600, 840), "Hangman");
+    sf::RenderWindow window(sf::VideoMode(600, 780), "Hangman", sf::Style::Close | sf::Style::Titlebar);
     sf::Font font;
-        font.loadFromFile("/Users/anastasia/CLionProjects/hangman/consolas.ttf");
+        font.loadFromFile("../consolas.ttf");
     sf::Text text("", font, 30);
-    sf::RectangleShape rectangle;
 
     PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
 
@@ -255,22 +254,24 @@ int main()
         text.setString(result);
         text.setPosition(0, 520);
         window.draw(text);
+
+        sf::Text textSmall("", font, 25);
+        textSmall.setColor(sf::Color(255, 69, 0));
+
         if (won)
         {
-            text.setString("Press enter to start new game...");
-            text.setPosition(0, 740);
-            window.draw(text);
+            textSmall.setString("Press enter to start new game...");
+            textSmall.setPosition(0, 730);
+            window.draw(textSmall);
         }
         if (tries == 8)
         {
-            text.setString("Yout last attempt");
-            text.setPosition(0, 740);
-            window.draw(text);
+            textSmall.setString("Your last attempt");
+            textSmall.setPosition(0, 730);
+            window.draw(textSmall);
         }
-        if (tries == 9)
-        {
-            StartNewGame(tries, won, result, wordFromUser, wordAndHint);
-        }
+        if (tries == 9) StartNewGame(tries, won, result, wordFromUser, wordAndHint);
+
         window.display();
     }
 
