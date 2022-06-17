@@ -208,7 +208,7 @@ int main()
     string result;
     string wordFromUser;
 
-    sf::RenderWindow window(sf::VideoMode(600, 800), "Hangman");
+    sf::RenderWindow window(sf::VideoMode(600, 840), "Hangman");
     sf::Font font;
         font.loadFromFile("/Users/anastasia/CLionProjects/hangman/consolas.ttf");
     sf::Text text("", font, 30);
@@ -228,10 +228,17 @@ int main()
             {
                 if (event.text.unicode < 128)
                 {
-                    letterFromUser = toupper(static_cast<char>(event.text.unicode));
-                    if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
-                    tries = TriesLeft(wordAndHint.returnWord(), wordFromUser);
-                    PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
+                    if (!won)
+                    {
+                        letterFromUser = toupper(static_cast<char>(event.text.unicode));
+                        if (wordFromUser.find(letterFromUser) == string::npos) wordFromUser += letterFromUser;
+                        tries = TriesLeft(wordAndHint.returnWord(), wordFromUser);
+                        PrintWordAndCheckWin(wordAndHint.returnWord(), wordFromUser, wordAndHint.returnHint(), won, result);
+                    }
+                }
+                if (event.text.unicode == 10)
+                {
+                    if (won) StartNewGame(tries, won, result, wordFromUser, wordAndHint);
                 }
             }
         }
@@ -248,15 +255,20 @@ int main()
         text.setString(result);
         text.setPosition(0, 520);
         window.draw(text);
-        text.setString(">");
-        text.setPosition(0, 740);
-        window.draw(text);
-        text.setString(letterFromUser);
-        text.setPosition(20, 740);
-        window.draw(text);
-        if (tries == 10 || won)
+        if (won)
         {
-            usleep(1000000); // will sleep for 1 s
+            text.setString("Press enter to start new game...");
+            text.setPosition(0, 740);
+            window.draw(text);
+        }
+        if (tries == 8)
+        {
+            text.setString("Yout last attempt");
+            text.setPosition(0, 740);
+            window.draw(text);
+        }
+        if (tries == 9)
+        {
             StartNewGame(tries, won, result, wordFromUser, wordAndHint);
         }
         window.display();
