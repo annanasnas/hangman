@@ -2,13 +2,14 @@ cmake_minimum_required(VERSION 3.4)
 project(hangman CXX)
 
 set(CMAKE_CXX_STANDARD 14)
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
 
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 add_executable(hangman main.cpp)
 
 target_link_libraries(hangman sfml-graphics sfml-audio)
+
+enable_testing()
 
 include(FetchContent)
 FetchContent_Declare(
@@ -17,8 +18,6 @@ FetchContent_Declare(
 )
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(googletest)
-
-enable_testing()
 
 add_executable(
         tester
@@ -31,13 +30,3 @@ target_link_libraries(
 
 include(GoogleTest)
 gtest_discover_tests(tester)
-
-
-#enable_testing()
-#add_executable(tester tester.cpp)
-#add_test(Tester tester)
-#
-#target_link_libraries(tester gtest_main)
-#
-#include(GoogleTest)
-#gtest_discover_tests(tester)

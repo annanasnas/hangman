@@ -258,11 +258,11 @@ string PrintLetters(string wordFromUser)
  * отгаданная буква
  *
  */
-void PrintWordAndCheckWin(string wordToGuess, string wordFromUser, string hint, bool &won, string &result)
+void PrintWordAndCheckWin(string wordToGuess, string wordFromUser, string hint, bool &won, string &UsersWordAndHint)
 {
     bool realWon = true;
     string wordDisplayed;
-    result = "";
+    UsersWordAndHint = "";
     for (int i = 0; i < wordToGuess.length(); i++)
     {
         if (wordFromUser.find(wordToGuess[i]) == string::npos)
@@ -276,9 +276,9 @@ void PrintWordAndCheckWin(string wordToGuess, string wordFromUser, string hint, 
             wordDisplayed += " ";
         }
     }
-    result += PrintMessage("Hint", true, false);
-    result += PrintMessage(hint, false, true);
-    result += PrintMessage(wordDisplayed, false);
+    UsersWordAndHint += PrintMessage("Hint", true, false);
+    UsersWordAndHint += PrintMessage(hint, false, true);
+    UsersWordAndHint += PrintMessage(wordDisplayed, false);
     won = realWon;
 }
 
@@ -322,7 +322,7 @@ int TriesLeft(string wordToGuess, string wordFromUser)
  */
 void StartNewGame(int &tries, bool &won, string &UsersWordAndHint, string &wordFromUser, Database &wordAndHint)
 {
-    wordAndHint = Database( "../words.txt");
+    wordAndHint = Database( "words.txt");
     tries = 0;
     won = false;
     UsersWordAndHint = "";
@@ -343,7 +343,7 @@ int main()
     string author = "annanasnas";
 
     // инициализация основных для игры переменных
-    Database wordAndHint;
+    Database wordAndHint = Database( "words.txt");;
     int tries = 0;
     bool won = false;
     string UsersWordAndHint;
@@ -352,7 +352,7 @@ int main()
     // подготовка интерфейса игры
     sf::RenderWindow window(sf::VideoMode(600, 780), "Hangman", sf::Style::Close | sf::Style::Titlebar);
     sf::Font font;
-        font.loadFromFile("../consolas.ttf");
+    font.loadFromFile("consolas.ttf");
     sf::Text text("", font, 30);
 
     // отображение подсказки и числа букв, что нужно ввести пользователю
