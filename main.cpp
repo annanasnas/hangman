@@ -119,7 +119,7 @@ std::string PrintMessage(std::string const &content, bool printTop = true,
  * и с верхней и нижней горизонтальной линией
  *
  */
-std::string PrintTitle(std::string title = "Hangman", std::string author = "annanasnas") {
+std::string PrintTitle(std::string const &title = "Hangman", std::string const &author = "annanasnas") {
     std::string result;
     result += PrintMessage(title, true, false);
     result += PrintMessage("by " + author, false, true);
@@ -307,7 +307,7 @@ int TriesLeft(std::string const &wordToGuess, std::string const &wordFromUser) {
  */
 void StartNewGame(int &tries, bool &won, std::string &UsersWordAndHint,
                   std::string &wordFromUser, Database &wordAndHint) {
-    wordAndHint = Database("../words.txt");
+    wordAndHint = Database("words.txt");
     tries = 0;
     won = false;
     UsersWordAndHint = "";
@@ -328,7 +328,7 @@ int main() {
     std::string author = "annanasnas";
 
     // инициализация основных для игры переменных
-    Database wordAndHint = Database("../words.txt");
+    Database wordAndHint = Database("words.txt");
     ;
     int tries = 0;
     bool won = false;
@@ -339,7 +339,7 @@ int main() {
     sf::RenderWindow window(sf::VideoMode(600, 780), "Hangman",
                             sf::Style::Close | sf::Style::Titlebar);
     sf::Font font;
-    font.loadFromFile("../consolas.ttf");
+    font.loadFromFile("consolas.ttf");
     sf::Text text("", font, 30);
 
     // отображение подсказки и числа букв, что нужно ввести пользователю
