@@ -1,37 +1,32 @@
 #include <gtest/gtest.h>
 
-using namespace std;
-
-string MessageInTheMiddle(string message, int lineLength)
-{
-    for (int i = message.length(); i < lineLength - 2; i++)
-    {
-        if (i % 2 == 0) message = " " + message;
-        else message = message + " ";
+std::string MessageInTheMiddle(std::string message, int lineLength) {
+    for (int i = message.length(); i < lineLength - 2; i++) {
+        if (i % 2 == 0)
+            message = " " + message;
+        else
+            message = message + " ";
     }
     return "|" + message + "|";
 }
-string PrintMessage(string content, bool printTop = true, bool printBottom = true)
-{
-    string result;
-    string line = "+---------------------------------+";
-    if (printTop)
-    {
+std::string PrintMessage(std::string const &content, bool printTop = true,
+                         bool printBottom = true) {
+    std::string result;
+    std::string line = "+---------------------------------+";
+    if (printTop) {
         result += line;
         result += "\n";
     }
     result += MessageInTheMiddle(content, line.length());
     result += "\n";
-    if (printBottom)
-    {
+    if (printBottom) {
         result += line;
         result += "\n";
     }
     return result;
 }
-string DrawHangman(int guessCount)
-{
-    string result;
+std::string DrawHangman(int guessCount) {
+    std::string result;
     if (guessCount >= 1)
         result += PrintMessage("|", false, false);
     else
@@ -73,28 +68,24 @@ string DrawHangman(int guessCount)
 
     return result;
 }
-string PrintAvailableLetters(string wordFromUser, char from, char to)
-{
-    string result;
-    string availableLetters;
-    for (char i = from; i <= to; i++)
-    {
-        if (wordFromUser.find(i) == string::npos)
-        {
+std::string PrintAvailableLetters(std::string const &wordFromUser, char from, char to) {
+    std::string result;
+    std::string availableLetters;
+    for (char i = from; i <= to; i++) {
+        if (wordFromUser.find(i) == std::string::npos) {
             availableLetters += i;
             availableLetters += " ";
-        }
-        else availableLetters += "  ";
+        } else
+            availableLetters += "  ";
     }
     result += PrintMessage(availableLetters, false, false);
     return result;
 }
-int TriesLeft(string wordToGuess, string wordFromUser)
-{
+int TriesLeft(std::string const &wordToGuess, std::string const &wordFromUser) {
     int error = 0;
-    for (int i = 0; i < wordFromUser.length(); i++)
-    {
-        if (wordToGuess.find(wordFromUser[i]) == string::npos) error++;
+    for (int i = 0; i < wordFromUser.length(); i++) {
+        if (wordToGuess.find(wordFromUser[i]) == std::string::npos)
+            error++;
     }
     return error;
 }
